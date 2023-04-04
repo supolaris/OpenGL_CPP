@@ -1,0 +1,32 @@
+#include <GL/glut.h>
+#include <math.h>
+
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+
+
+	//lower text
+	// Set the color to white
+	glColor3f(1.0f, 1.0f, 1.0f);
+	// Set the position for the text
+	glRasterPos2f(-0.2f, 0.3f);
+	// Display each character in the string
+	const char* textt = "FOOTBALL MATCH!";
+	for (const char* c = textt; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+	}
+	glutSwapBuffers();
+	glFlush();
+}
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(640, 480);
+	glutInitWindowPosition(1, 1);
+	glutCreateWindow("Text Screen");
+	glClearColor(0.0f, 1.0f, 0.0f, 0.1f); // orange color
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return 0;
+}
