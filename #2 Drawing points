@@ -1,0 +1,30 @@
+#include <GL/glut.h>
+#include <math.h>
+
+void display() {
+
+	//point 1
+	glPointSize(10);
+	glBegin(GL_POINTS);
+	glVertex2f(0.5f, 0.3);
+	glEnd();
+
+	//point 2
+	glPointSize(7);
+	glBegin(GL_POINTS);
+	glVertex2f(0.3f, 0.2);
+	glEnd();
+	glutSwapBuffers();
+
+
+}
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(640, 480);
+	glutCreateWindow("Drawing points");
+	glClearColor(0.0f, 1.0f, 0.0f, 0.8f);
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return 0;
+}
