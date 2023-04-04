@@ -1,0 +1,32 @@
+#include <GL/glut.h>
+#include <math.h>
+
+void display() {
+
+	//line 1
+	glLineWidth(7);
+	glBegin(GL_LINES);
+	glVertex2f(0.4f, 0.3f);
+	glVertex2f(0.5f, 0.7f);
+	glEnd();
+
+	//line 2
+	glLineWidth(4);
+	glBegin(GL_LINES);
+	glVertex2f(-0.4f, 0.3f);
+	glVertex2f(-0.6f, 0.5f);
+	glEnd();
+	glutSwapBuffers();
+
+
+}
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(640, 480);
+	glutCreateWindow("Drawing lines");
+	glClearColor(0.0f, 1.0f, 0.0f, 0.8f);
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return 0;
+}
