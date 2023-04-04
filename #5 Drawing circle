@@ -1,0 +1,28 @@
+#include <GL/glut.h> // include the GLUT library
+#include <iostream>
+using namespace std;
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0f, 1.0f, 1.0f); // defining color of circle
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < 360; i++) {
+        float angle = i * 3.1415926f / 180.0f;
+        float x = 0.8f * cos(angle); //0.8 specifies the radius through x-axis
+        float y = 0.8f * sin(angle); //0.8 specifies the radius through y-axis
+        glVertex2f(x, y);
+    }
+    glEnd();
+    glutSwapBuffers();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv); // initialize GLUT
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); // set the display mode to single buffer
+    glutInitWindowSize(640, 480); // set the window size
+    glutInitWindowPosition(100, 100); // set the window position
+    glutCreateWindow("Circle Window"); // create the window
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glutDisplayFunc(display); // register the display function
+    glutMainLoop(); // enter the main loop
+    return 0;
+}
