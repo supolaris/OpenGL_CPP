@@ -1,0 +1,193 @@
+#include <GL/glut.h>
+#include <math.h>
+
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	//right inner goal
+	glColor3f(1.0f, 1.0f, 1.0f); // white color
+	glBegin(GL_POLYGON);
+
+	glVertex2f(1.0f, -0.3f);
+	glVertex2f(0.8f, -0.3f);
+	glVertex2f(0.8f, 0.2f);
+	glVertex2f(1.0f, 0.2f);
+
+	glEnd();
+
+	//right goal
+	glColor3f(0.0f, 0.0f, 0.0f); // black color
+	glLineWidth(4);
+	glBegin(GL_LINES);
+	glVertex2f(1.0f, -0.3f);
+	glVertex2f(0.8f, -0.3f);
+
+	glVertex2f(0.8f, -0.3f);
+	glVertex2f(0.8f, 0.2f);
+
+	glVertex2f(1.0f, 0.2f);
+	glVertex2f(0.8f, 0.2f);
+	glEnd();
+
+	//right player
+	glColor3f(0.0f, 0.0f, 0.0f); // black color
+	glPointSize(7.0f);
+	glBegin(GL_POINTS);
+	glVertex2f(0.7f, -0.05f);
+	glEnd();
+
+	//right goal boundry
+	glLineWidth(4);
+	glColor3f(1.0, 0.0, 0.0); // red color
+	glBegin(GL_LINES);
+	glVertex2f(1.0f, -0.5f);
+	glVertex2f(0.5f, -0.5f);
+
+	glVertex2f(0.5f, -0.5f);
+	glVertex2f(0.5f, 0.45f);
+
+
+	glVertex2f(0.5f, 0.45f);
+	glVertex2f(1.0f, 0.45f);
+	glEnd();
+
+
+	//left inner goal
+	glColor3f(1.0f, 1.0f, 1.0f); // white color
+	glBegin(GL_POLYGON);
+	glVertex2f(-1.0f, -0.3f);
+	glVertex2f(-0.8f, -0.3f);
+
+	glVertex2f(-0.8f, 0.2f);
+	glVertex2f(-1.0f, 0.2f);
+
+	glEnd();
+
+	//left goal
+	glLineWidth(4);
+	glColor3f(0.0f, 0.0f, 0.0f); // black color
+	glBegin(GL_LINES);
+	glVertex2f(-1.0f, -0.3f);
+	glVertex2f(-0.8f, -0.3f);
+
+	glVertex2f(-0.8f, -0.3f);
+	glVertex2f(-0.8f, 0.2f);
+
+	glVertex2f(-1.0f, 0.2f);
+	glVertex2f(-0.8f, 0.2f);
+	glEnd();
+
+	//left player
+	glColor3f(0.0f, 0.0f, 0.0f); // black color
+	glPointSize(7.0f);
+	glBegin(GL_POINTS);
+	glVertex2f(-0.7f, -0.05f);
+	glEnd();
+
+	//left goal boundry
+	glColor3f(1.0, 0.0, 0.0); // red color
+	glBegin(GL_LINES);
+	glVertex2f(-1.0f, -0.5f);
+	glVertex2f(-0.5f, -0.5f);
+
+	glVertex2f(-0.5f, -0.5f);
+	glVertex2f(-0.5f, 0.45f);
+
+
+	glVertex2f(-0.5f, 0.45f);
+	glVertex2f(-1.0f, 0.45f);
+	glEnd();
+
+
+	//middle line
+	glLineWidth(4);
+	glColor3f(0.0f, 0.0f, 1.0f); // blue color
+	glBegin(GL_LINES);
+	glVertex2f(0.0f, 1.0f);
+	glVertex2f(0.0f, -1.0f);
+	glEnd();
+
+
+	//large circle
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < 360; i++) {
+		float angle = i * 3.14 / 180.0f;
+		float x = 0.25f * cos(angle);
+		float y = 0.25f * sin(angle);
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+
+	//small middle circle
+	//glClearColor(0.1f, 0.0f, 0.0f, 0.8f);
+	glColor3f(0.1, 0.0, 0.0);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < 360; i++) {
+		float angle = i * 3.14 / 180.0f;
+		float x = 0.2f * cos(angle);
+		float y = 0.2f * sin(angle);
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+	//upper boundry
+	glColor3f(0.0, 0.0, 1.0); // blue color
+	glBegin(GL_POLYGON);
+	glVertex2f(-1.0f, 1.0f);
+	glVertex2f(-1.0f, 0.7f);
+
+	glVertex2f(1.0f, 0.7f);
+	glVertex2f(1.0f, 1.0f);
+
+	glEnd();
+
+	//lower boundry
+	glColor3f(0.0, 0.0, 1.0); // blue color
+	glBegin(GL_POLYGON);
+	glVertex2f(-1.0f, -1.0f);
+	glVertex2f(-1.0f, -0.7);
+
+	glVertex2f(1.0f, -0.7f);
+	glVertex2f(1.0f, -1.0f);
+
+	glEnd();
+
+	//upper text
+	// Set the color to white
+	glColor3f(1.0f, 1.0f, 1.0f);
+	// Set the position for the text
+	glRasterPos2f(-0.29f, 0.8f);
+	// Display each character in the string
+	const char* text = "FOOTBALL GROUND!";
+	for (const char* c = text; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+	}
+
+	//lower text
+	// Set the color to white
+	glColor3f(1.0f, 1.0f, 1.0f);
+	// Set the position for the text
+	glRasterPos2f(-0.22f, -0.9f);
+	// Display each character in the string
+	const char* textt = "20-ARID-627";
+	for (const char* c = textt; *c != '\0'; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+	}
+	glutSwapBuffers();
+	glFlush();
+}
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(640, 480);
+	glutInitWindowPosition(1, 1);
+	glutCreateWindow("Football Ground");
+	glClearColor(0.0f, 1.0f, 0.0f, 0.1f); // orange color
+	glutDisplayFunc(display);
+	glutMainLoop();
+	return 0;
+}
