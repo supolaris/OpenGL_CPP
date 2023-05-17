@@ -1,0 +1,120 @@
+#include <Windows.h>   // Ms window
+#include <gl/glut.h>   //Glut, inlcude glu.h and gl.h
+#include <Math.h>      //Sin,cos
+#define PI 3.14159265f
+
+//Global variables
+char title[] = "20-arid-627"; //windows mode's title
+int windowWidth = 640;				 //windows mode's width
+int windowHeight = 480;				 //window mode's height
+int windowPosX = 50;				 //windows mode's top-left corner x
+int windowPosY = 50;				 //windows mode's top-left corner y
+
+GLfloat ballRadius = 0.5f;	//radius of the bouncing ball
+GLfloat ballX = 0.0f;		//Ball's center (x,y) position
+GLfloat ballY = 0.0f;
+GLfloat ballXMax, ballXMin, ballYMax, ballYMin;	//Ball's center (x,y) bounds
+GLfloat xSpeed = 0.02f;
+GLfloat ySpeed = 0.007f;
+int refreshMillis = 30;
+
+// Projection clipping area
+GLdouble clipAreaXLeft, clipAreaXRight, clipAreaYBottom, clipAreaYTop;
+
+// Initilize OpenGL Graphics
+void initGL() {
+	glClearColor(0.0, 0.0, 0.0, 1.0); //Set backround color (clear) to black
+}
+
+// Callback handler for window re-paint event 
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT); //clear the color buffer
+	glMatrixMode(GL_MODELVIEW); //To opertate on the model-view matrix
+	glLoadIdentity();
+
+	glTranslatef(ballX, ballY, 0.0f); //Translate to (xpos, ypos)
+	//use triangle segments to form a circle
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3f(0.0f, 0.0f, 1.0f); //blue
+	glVertex2f(0.0f, 0.0f);  // center of circle
+	int numSegments = 100;
+	GLfloat angle;
+	for (int i = 0; i <= numSegments; i++) {
+		angle = i * 2.0f * PI / numSegments; // 360 deg for all segments
+		glVertex2f(cos(angle) * ballRadius, sin(angle) * ballRadius);
+	}
+	glEnd();
+
+	glutSwapBuffers(); //swap front and backk buffers (of doublr buffered mode)
+
+	// Animation control - control thr location for thr next refresh
+	ballX += xSpeed;
+	ballY += ySpeed;
+	// check if the ball exceeds the edges
+	if (ballX > ballXMax) {
+		ballX = ballXMax;
+		xSpeed = -xSpeed;
+	}
+	else if (ballX < ballXMin) {
+		ballX = ballXMin;
+		xSpeed = -xSpeed;
+	}
+
+	if (ballY > ballYMax) {
+		ballY = ballYMax;
+		ySpeed = -ySpeed;
+	}
+	else if (ballY < ballYMin) {
+		ballY = ballYMin;
+		ySpeed = -ySpeed;
+	}
+}
+// call back when the window is resize 
+void reshape(GLsizei width, GLsizei height) {
+	// Compute aspect ratio of the new window
+	if (height == 0) height = 1;
+	GLfloat aspect = (GLfloat)width / (GLfloat)height;
+
+	//set the viewport to cover the new window 
+	glViewport(0, 0, width, height);
+
+	// set the aspect ratio of the clipping area to match the viewport
+	glMatrixMode(GL_PROJECTION); // to operate on the projection matrix
+	glLoadIdentity();
+	if (width >= height) {
+		clipAreaXLeft = -1.0 * aspect;
+		clipAreaXRight = 1.0 * aspect;
+		clipAreaYBottom = -1.0;
+		clipAreaYTop = 1.0;
+	}
+	else {
+		clipAreaXLeft = -1.0;
+		clipAreaXRight = 1.0;
+		clipAreaYBottom = -1.0 / aspect; // aspect;
+		clipAreaYTop = 1.0 / aspect; // aspect;
+	}
+	gluOrtho2D(clipAreaXLeft, clipAreaXRight, clipAreaYBottom, clipAreaYTop);
+	ballXMin = clipAreaXLeft + ballRadius;
+	ballXMax = clipAreaXRight - ballRadius;
+	ballXMin = clipAreaYBottom + ballRadius;
+	ballXMax = clipAreaYTop - ballRadius;
+}
+// called back when the timer expired 
+void Timer(int value) {
+	glutPostRedisplay(); //post a  request to activate display ()
+	glutTimerFunc(refreshMillis, Timer, 0); // subsequent timer call at milliseconds
+}
+// Main funtion : Glut runs as a consloe application at main ()
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);	//Initialize GLUT
+	glutInitDisplayMode(GLUT_DOUBLE); // Enable double buffered mode
+	glutInitWindowSize(windowWidth, windowHeight); //Initial window width and height
+	glutInitWindowPosition(windowPosX, windowPosY); // Initial window top-left corner (x,y)
+	glutCreateWindow(title);	//Create window with given title
+	glutDisplayFunc(display); //Register callback handler for window re-paint
+	glutReshapeFunc(reshape);	//Register callback handler for window re-shape
+	glutTimerFunc(0, Timer, 0); //First timer call immediately
+	initGL();	//Our own OpenGl initialization
+	glutMainLoop();	//Enter event-processing loop
+	return 0;
+}
