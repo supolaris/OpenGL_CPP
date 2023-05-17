@@ -7,12 +7,10 @@ void display() {
 	//right inner goal
 	glColor3f(1.0f, 1.0f, 1.0f); // white color
 	glBegin(GL_POLYGON);
-
 	glVertex2f(1.0f, -0.3f);
 	glVertex2f(0.8f, -0.3f);
 	glVertex2f(0.8f, 0.2f);
 	glVertex2f(1.0f, 0.2f);
-
 	glEnd();
 
 	//right goal
@@ -21,10 +19,8 @@ void display() {
 	glBegin(GL_LINES);
 	glVertex2f(1.0f, -0.3f);
 	glVertex2f(0.8f, -0.3f);
-
 	glVertex2f(0.8f, -0.3f);
 	glVertex2f(0.8f, 0.2f);
-
 	glVertex2f(1.0f, 0.2f);
 	glVertex2f(0.8f, 0.2f);
 	glEnd();
@@ -42,11 +38,8 @@ void display() {
 	glBegin(GL_LINES);
 	glVertex2f(1.0f, -0.5f);
 	glVertex2f(0.5f, -0.5f);
-
 	glVertex2f(0.5f, -0.5f);
 	glVertex2f(0.5f, 0.45f);
-
-
 	glVertex2f(0.5f, 0.45f);
 	glVertex2f(1.0f, 0.45f);
 	glEnd();
@@ -120,17 +113,45 @@ void display() {
 	glEnd();
 
 
+
 	//small middle circle
 	//glClearColor(0.1f, 0.0f, 0.0f, 0.8f);
 	glColor3f(0.1, 0.0, 0.0);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 360; i++) {
 		float angle = i * 3.14 / 180.0f;
-		float x = 0.2f * cos(angle);
+		float x =  0.2f * cos(angle);
 		float y = 0.2f * sin(angle);
 		glVertex2f(x, y);
 	}
 	glEnd();
+
+
+	//left goal boundry
+	//glClearColor(0.1f, 0.0f, 0.0f, 0.8f);
+	glColor3f(0.1, 0.0, 0.0);
+	glBegin(GL_LINES);
+	for (int i = 90; i < 270; i++) {
+		float angle = i * 3.14 / 180.0f;
+		float x = 0.50+ 0.2f * cos(angle);
+		float y = 0.2f * sin(angle);
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+	//right goal boundry
+//glClearColor(0.1f, 0.0f, 0.0f, 0.8f);
+	glColor3f(0.1, 0.0, 0.0);
+	glBegin(GL_LINES);
+	for (int i = 270; i < 450; i++) {
+		float angle = i * 3.14 / 180.0f;
+		float x = -0.50 + 0.2f * cos(angle);
+		float y = 0.2f * sin(angle);
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+
 
 	//upper boundry
 	glColor3f(0.0, 0.0, 1.0); // blue color
