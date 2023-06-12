@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+#include<GL/glut.h>
+enum MainMenu {
+	OPTION_1 = 1,
+	OPTION_2,
+	OPTION_3,
+	OPTION_EXIT
+};
+// Function prototypes
+void display();
+void menuCallback(int option);
+// Main function
+int main(int argc, char** argv) {
+	// Initialize GLUT
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); // Set display mode to single-buffered and RGB color
+	glutInitWindowSize(400, 400); // Set window size
+	glutCreateWindow("Menu Example"); // Create window with title "Menu Example"
+	// Register display callback function
+	glutDisplayFunc(display);
+	// Create menu and add options
+	glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Option 1", OPTION_1); // Add "Option 1" with menu identifier OPTION_1
+	glutAddMenuEntry("Option 2", OPTION_2); // Add "Option 2" with menu identifier OPTION_2
+	glutAddMenuEntry("Option 3", OPTION_3); // Add "Option 3" with menu identifier OPTION_3
+	glutAddMenuEntry("Exit", OPTION_EXIT); // Add "Exit" with menu identifier OPTION_EXIT
+	glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach menu to right mouse button
+	glutMainLoop(); // Start the main loop
+	return 0;
+}
+// Display callback function
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glFlush();
+}
+void menuCallback(int option) {
+	switch (option) {
+	case OPTION_1:
+		cout << "Option 1 selected" << std::endl;
+		break;
+	case OPTION_2:
+		// Do something for option 2
+		cout << "Option 2 selected" << std::endl;
+		break;
+	case OPTION_3:
+		// Do something for option 3
+		cout << "Option 3 selected" << std::endl;
+		break;
+	case OPTION_EXIT:
+		// Exit the program
+		exit(0);
+		break;
+	}
+}
