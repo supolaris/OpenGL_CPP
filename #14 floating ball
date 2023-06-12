@@ -1,0 +1,88 @@
+#include <GL/glut.h>
+#include <math.h>
+
+// Ball parameters
+float ballRadius = 0.2f;
+float ballX = 0.0f;
+float ballY = 0.0f;
+float ballSpeedX = 0.1f;
+float ballSpeedY = 0.05f;
+float ballColorR = 1.0f;
+float ballColorG = 1.0f;
+float ballColorB = 1.0f;
+
+// Window parameters
+int winWidth = 640;
+int winHeight = 480;
+
+void init() {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// Draw the ball
+	glColor3f(ballColorR, ballColorG, ballColorB);
+	glBegin(GL_POLYGON);
+	glVertex2f(ballX, ballY);
+	for (int i = 0; i <= 360; i++) {
+		float angle = i * 3.14159f / 180.0f;
+		float x = ballX + ballRadius * cosf(angle);
+		float y = ballY + ballRadius * sinf(angle);
+		glVertex2f(x, y);
+	}
+	glEnd();
+
+	glutSwapBuffers();
+}
+
+void update(int value) {
+	// Update ball position
+	ballX += ballSpeedX;
+	ballY += ballSpeedY;
+
+	// Check for collisions with the window borders
+	if (ballX + ballRadius > 1.0f) {
+		ballSpeedX = -ballSpeedX;
+		ballColorR = 1.0f; // change color to red on collision with right border
+		ballColorG = 0.0f;
+		ballColorB = 0.0f;
+	}
+	if (ballX - ballRadius < -1.0f) {
+		ballSpeedX = -ballSpeedX;
+		ballColorR = 0.0f; // change color to red on collision with left border
+		ballColorG = 0.0f;
+		ballColorB = 1.0f;
+	}
+
+	if (ballY + ballRadius > 1.0f) {
+		ballSpeedY = -ballSpeedY;
+		ballColorR = 0.0f; // change color to green on collision with top border
+		ballColorG = 1.0f;
+		ballColorB = 0.0f;
+	}
+	if (ballY - ballRadius < -1.0f) {
+		ballSpeedY = -ballSpeedY;
+		ballColorR = 1.0f; // change color to green on collision with bottom border
+		ballColorG = 1.0f;
+		ballColorB = 0.0f;
+	}
+
+	glutPostRedisplay();
+	glutTimerFunc(50, update, 0); // update every 50 milliseconds (60 fps)
+}
+
+int main(int argc, char** argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(winWidth, winHeight);
+	glutCreateWindow("Bouncing Ball");
+
+	init();
+	glutDisplayFunc(display);
+	glutTimerFunc(0, update, 0);
+
+	glutMainLoop();
+	return 0;
+}
