@@ -1,0 +1,63 @@
+#include<iostream>
+#include<GL/glut.h>
+enum MainMenu {
+	COLOR_RED = 1,
+	COLOR_GREEN,
+	COLOR_BLUE,
+	COLOR_EXIT
+};
+float red = 0.0;
+float green = 0.0;
+float blue = 0.0;
+// Function prototypes
+void display();
+void menuCallback(int option);
+// Main function
+int main(int argc, char** argv) {
+	// Initialize GLUT
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); // Set display mode to single-buffered and RGB color
+	glutInitWindowSize(400, 400); // Set window size
+	glutCreateWindow("Menu Example"); // Create window with title "Menu Example"
+	// Register display callback function
+	glutDisplayFunc(display);
+	// Create menu and add options
+	glutCreateMenu(menuCallback);
+	glutAddMenuEntry("Red", COLOR_RED); // Add "Option 1" with menu identifier OPTION_1
+	glutAddMenuEntry("Green", COLOR_GREEN); // Add "Option 2" with menu identifier OPTION_2
+	glutAddMenuEntry("Blue", COLOR_BLUE); // Add "Option 3" with menu identifier OPTION_3
+	glutAddMenuEntry("Exit", COLOR_EXIT); // Add "Exit" with menu identifier OPTION_EXIT
+	glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach menu to right mouse button
+	glutMainLoop(); // Start the main loop
+	return 0;
+}
+// Display callback function
+void display() {
+	glClearColor(red, green, blue, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glutSwapBuffers();
+}
+void menuCallback(int option) {
+	switch (option) {
+	case COLOR_RED:
+		red = 1.0f;
+		green = 0.0f;
+		blue = 0.0f;
+		break;
+	case COLOR_GREEN:
+		// Do something for option 2
+		red = 0.0f;
+		green = 1.0f;
+		blue = 0.0f;
+		break;
+	case COLOR_BLUE:
+		red = 0.0f;
+		red = 0.0f;
+		blue = 1.0f;
+		break;
+	case COLOR_EXIT:
+		// Exit the program
+		exit(0);
+		break;
+	}
+}
